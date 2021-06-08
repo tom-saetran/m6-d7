@@ -1,15 +1,19 @@
-import express from "express";
+import express from "express"
+import listEndpoints from "express-list-endpoints"
 
-import studentsRoute from "./services/students/index.js";
+import blogsRoute from "./services/blogs/index.js"
+import authorsRoute from "./services/authors/index.js"
 
-const { PORT } = process.env;
+const { PORT } = process.env
 
-const app = express();
+const server = express()
 
-app.use(express.json());
+server.use(express.json())
 
-app.use("/students", studentsRoute);
+server.use("/blog", blogsRoute)
+server.use("/author", authorsRoute)
 
-app.listen(PORT, () => console.log("server is running on port ", PORT));
-
-app.on("error", (err) => console.log("server is not running ", err));
+server.listen(PORT, () => {
+    console.table(listEndpoints(server))
+    console.log("server is running on port ", PORT)
+})
